@@ -57,7 +57,9 @@ if len(lc_text)==0:
     click.echo(click.style("Clipboard text is empty", fg='bright_red'))
     exit()
 
-target_file = open(lc_filename, mode='w', encoding='utf-8', errors = 'ignore')
+lb_file_append = os.path.exists(lc_filename) ## if target file already exists
+lc_text = (chr(13) if lb_file_append else '') + lc_text ## if target file already exists need to insert linebreak between old file content and appended text
+target_file = open(lc_filename, mode=('a' if lb_file_append else 'w'), encoding='utf-8', errors = 'ignore')
 target_file.write(lc_text)
 target_file.flush()
 target_file.close()
@@ -67,8 +69,8 @@ ln_filesize = '{0:,}'.format(os.path.getsize(lc_filename)).replace(',', ' ')
 click.echo(
             click.style(f"{lc_filename}", fg='bright_yellow', bold=True)+
             click.style("   -   ", fg='bright_cyan')+
-            click.style("File size:  ", fg='bright_green')+
-            click.style(f"{ln_filesize}", fg='bright_blue'),
+            click.style("File size:  ", fg='bright_green') + 
+            click.style(f"{ln_filesize}", fg='bright_blue') + (click.style(f"  (+{ len(lc_text) })", fg='bright_magenta') if lb_file_append else ''),
             nl=False)
 
 click.echo(click.style('',fg='reset'), nl=False)

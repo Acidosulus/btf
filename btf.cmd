@@ -1,0 +1,1 @@
+"C:\Program Files\Python38\python.exe" "C:\ul_statuses\btf.py" %1 %2 %3 %4 %5 %6 %7
